@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,22 +15,23 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
+@Table(name = "tb_user") //indica que deve ser criado essa classe em tabela de bd.
+public class User implements Serializable {  //Isso indica que a classe `User` pode ser serializada
+	                                         //ou seja, seus objetos podem ser convertidos em uma sequência de bytes para serem armazenados ou transferidos.
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  //define o atributo id com chave primaria
 	private Long id;
 	private String name;
 	private String email;
 	private String password;
 	private String phone;
 	
-	
-	@OneToMany(mappedBy = "Client")
-	private List<Order> orders = new ArrayList<>();
+	@JsonIgnore //Anotação para ignorar a serialização/desserialização do campo "orders" ao converter objetos para JSON
+	@OneToMany(mappedBy = "Client") // "Client": este atributo mappedByespecifica o nome do campo na classe Order que representa o relacionamento inverso (ou seja, a referência à entidade atual).
+	private List<Order> orders = new ArrayList<>(); // Esta lista representa o  conjunto de pedidos associados a esta entidade. A anotação @OneToManyindica que esta lista conterá vários objetos do tipo Order.
 
 	public Long getId() {
 		return id;

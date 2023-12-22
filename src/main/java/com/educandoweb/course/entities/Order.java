@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,23 +19,25 @@ import jakarta.persistence.Table;
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@Id
+
+	@Id // define o o atributo id como chave primaria da tabela
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T' HH:mm:ss 'Z' ", timezone = "GMT")
 	private Instant moment;
-	
-	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	private User Client;
+
+	@ManyToOne // muitos para um
+	@JoinColumn(name = "cliente_id") // define o nome da chave estrangeira no bd
+	private User Client; // dependencia
 
 	public Order() {
 
 	}
 
-	public Order(long id, Instant moment, User client) {
+	public Order(Instant moment, User client) {
 		super();
-		this.id = id;
+
 		this.moment = moment;
 		Client = client;
 	}
