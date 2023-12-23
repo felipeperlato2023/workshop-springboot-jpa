@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -30,16 +31,29 @@ public class Order implements Serializable {
 	@ManyToOne // muitos para um
 	@JoinColumn(name = "cliente_id") // define o nome da chave estrangeira no bd
 	private User Client; // dependencia
+	
+	private Integer orderStatus;
 
 	public Order() {
 
 	}
 
-	public Order(Instant moment, User client) {
+	public Order(Instant moment,OrderStatus orderStatus, User client) {
 		super();
 
 		this.moment = moment;
+		setOrderStatus(orderStatus);
 		Client = client;
+		
+	}
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null)
+		this.orderStatus = orderStatus.getCode();
 	}
 
 	public long getId() {
