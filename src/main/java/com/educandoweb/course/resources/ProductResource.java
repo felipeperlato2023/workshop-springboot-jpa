@@ -13,7 +13,7 @@ import com.educandoweb.course.entities.Product;
 import com.educandoweb.course.services.ProductService;
 
 @RestController // Anotação indicando que esta classe é um controlador REST do Spring
-@RequestMapping(value = "/Products") // Mapeia o caminho base para todas as requisições HTTP para este controlador
+@RequestMapping(value = "/products") // Mapeia o caminho base para todas as requisições HTTP para este controlador
 public class ProductResource {
 	
 	
