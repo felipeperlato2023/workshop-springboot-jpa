@@ -26,9 +26,10 @@ public enum OrderStatus {
 				return value;
 			}
 			
-			throw new IllegalArgumentException("CODIGO INVALIDO");
+			
 		}
-		return null;
+		throw new IllegalArgumentException("CODIGO INVALIDO");
+		
 	}
 	
 	

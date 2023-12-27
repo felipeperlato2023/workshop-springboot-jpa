@@ -2,7 +2,9 @@ package com.educandoweb.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,20 +34,23 @@ public class Order implements Serializable {
 	@ManyToOne // muitos para um
 	@JoinColumn(name = "cliente_id") // define o nome da chave estrangeira no bd
 	private User Client; // dependencia
-	
+
 	private Integer orderStatus;
+
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
 
 	public Order() {
 
 	}
 
-	public Order(Instant moment,OrderStatus orderStatus, User client) {
+	public Order(Instant moment, OrderStatus orderStatus, User client) {
 		super();
 
 		this.moment = moment;
 		setOrderStatus(orderStatus);
 		Client = client;
-		
+
 	}
 
 	public OrderStatus getOrderStatus() {
@@ -53,7 +59,7 @@ public class Order implements Serializable {
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		if (orderStatus != null)
-		this.orderStatus = orderStatus.getCode();
+			this.orderStatus = orderStatus.getCode();
 	}
 
 	public long getId() {
@@ -78,6 +84,10 @@ public class Order implements Serializable {
 
 	public void setClient(User client) {
 		Client = client;
+	}
+
+	public Set<OrderItem> getItems() {
+		return items;
 	}
 
 	@Override
