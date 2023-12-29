@@ -42,7 +42,8 @@ public class Order implements Serializable {
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 
-	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //as açõe q acontecer na classe depende tambem acontecera na classe independente.
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // as açõe q acontecer na classe depende tambem acontecera
+																// na classe independente.
 	private Payment payment;
 
 	public Order() {
@@ -90,6 +91,7 @@ public class Order implements Serializable {
 	public void setClient(User client) {
 		Client = client;
 	}
+
 	public Payment getPayment() {
 		return payment;
 	}
@@ -98,12 +100,20 @@ public class Order implements Serializable {
 		this.payment = payment;
 	}
 
-
 	public Set<OrderItem> getItems() {
 		return items;
 	}
 
-	
+	public Double getTotal() {
+
+		double sum = 0.0;
+		for (OrderItem x : items) {
+			sum = sum + x.getSubTotal();
+		}
+		return sum;
+
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

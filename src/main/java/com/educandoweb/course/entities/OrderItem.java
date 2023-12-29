@@ -15,9 +15,9 @@ import jakarta.persistence.Table;
 public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@EmbeddedId //incorporado 2 id dentro desse, por isso usar embeddedId
-	private OrderItemPK id = new OrderItemPK(); //id composto, quando tem 2 id para representar a tabela.
+
+	@EmbeddedId // incorporado 2 id dentro desse, por isso usar embeddedId
+	private OrderItemPK id = new OrderItemPK(); // id composto, quando tem 2 id para representar a tabela.
 	private Integer quantity;
 	private Double price;
 
@@ -32,7 +32,7 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 		this.price = price;
 	}
-    
+
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
@@ -41,6 +41,7 @@ public class OrderItem implements Serializable {
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
+
 	public Product getProduct() {
 		return id.getProduct();
 	}
@@ -51,6 +52,10 @@ public class OrderItem implements Serializable {
 
 	public Integer getQuantity() {
 		return quantity;
+	}
+
+	public Double getSubTotal() {
+		return price * quantity;
 	}
 
 	@Override
