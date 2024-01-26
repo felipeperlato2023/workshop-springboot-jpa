@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
 @Service // Indica que esta classe é um componente de serviço do Spring
 public class UserService {
@@ -23,7 +24,7 @@ public class UserService {
 	public User findById(long id)
 	{
 		java.util.Optional<User> obj = repository.findById(id); // Busca um usuário pelo ID no UserRepository
-		return obj.get(); // Retorna o usuário encontrado (ou lança uma exceção se não for encontrado)
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // Retorna o usuário encontrado (ou lança uma exceção se não for encontrado)
 	}
 	
 	public User insert(User obj)
